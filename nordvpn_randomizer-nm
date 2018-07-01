@@ -5,7 +5,7 @@
 #               :country (user input).
 #author         :Damian Rath
 #created        :2018-06-30
-#version        :0.2
+#version        :0.2.1
 #usage          :bash nordvpn_randomizer-nm
 #notes          :script expects /etc/openvpn/auth.txt to
 #               :exist containing valid user & password.
@@ -36,15 +36,6 @@ if [ "$(id -u)" != "0" ]; then
     echo
     exit 1
 fi
-
-#preReqs=$(dpkg -l | grep -E '^ii' | grep "network-manager-openvpn-gnome")
-#if [ ! $preReqs ]; then
-#    echo
-#    echo "You need to install the package 'network-manager-openvpn-gnome', exiting."
-#    echo
-#
-#    exit 1
-#fi
 
 cd $scriptDir
 

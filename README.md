@@ -16,7 +16,7 @@ $> sudo chmod 0600 auth.txt
 $> sudo chmod 0700 ovpn_udp ovpn_tcp
 $> mkdir ~/sources && cd ~/sources   # If you have a different git dir just exchange sources with yours.
 $> git clone https://github.com/damianrath/nordvpn_randomizer-nm.git
-$> sudo ln -s /home/<your username>/sources/nordvpn_randomizer-nm/nordvpn_randomizer-nm /usr/local/bin/
+$> sudo ln -s ~/sources/nordvpn_randomizer-nm/nordvpn_randomizer-nm /usr/local/bin/
 $> sudo nordvpn_randomizer-nm
 ```
 
