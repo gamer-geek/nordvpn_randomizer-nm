@@ -8,7 +8,7 @@ This Bash script was created for simply randomize the available [NordVPN](https:
 
 ```
 $> sudo apt-get update
-$> sudo apt-get install unzip ca-certificates network-manager-openvpn-gnome -y
+$> sudo apt-get install unzip dnsutils ca-certificates network-manager-openvpn-gnome -y
 $> sudo service network-manager restart
 $> cd /etc/openvpn
 $> sudo wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip

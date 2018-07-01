@@ -71,6 +71,7 @@ function askCountryCode() {
             echo "NordVPN does not support that country. Please try again."
             echo
             echo "Valid country-codes are: ${VPNCOUNTRIES[*]}"
+
             echo
             doPause
         fi
@@ -100,7 +101,6 @@ function addManager() {
     cd $scriptDir
 
     echo "$rServerID" > rserver
-
     echo
     doPause
 }
@@ -112,7 +112,6 @@ function whatIP() {
     echo
     echo "Current WAN IP: $wanIP"
     echo
-
     doPause
 }
 
@@ -156,6 +155,7 @@ function activateVPN() {
     rVPN=$(head -1 $STATUSFILE)
     echo
     nmcli connection up id "$rVPN"
+
     echo
     doPause
 }
@@ -164,13 +164,38 @@ function deactivateVPN() {
     rVPN=$(head -1 $STATUSFILE)
     echo
     nmcli connection down id "$rVPN"
+
     echo
     doPause
+}
+
+function remove_all_vpn() {
+    local yn
+    echo 
+    read -p "Do you wish to remove ALL NordVPN connections in NM? (yes/no) [no] " yn
+    case $yn in
+        [yY][eE][sS])  echo
+                       while [[ $(nmcli connection show | sed -n "/nordvpn/p") ]]
+                       do  
+                           nmcli connection del $(nmcli connection show | grep -i "nordvpn" | awk -F ' ' '{print $2}')
+                       done
+                       rm $STATUSFILE
+                       echo
+                       doPause
+                       return
+            ;;
+        * ) echo "Aborting"
+            echo
+            doPause
+            return
+            ;;
+    esac
 }
 
 function showAllConns() {
     echo
     nmcli connection show
+
     echo
     doPause
 }
@@ -189,6 +214,7 @@ function MainMenu() {
     echo -e "${Red}4${Color_Off}) Activate randomized VPN"
     echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
     echo -e "${Red}6${Color_Off}) Show all connections in NM"
+    echo -e "${Red}7${Color_Off}) Remove ALL NordVPN connections"    
     echo -e "${Red}q${Color_Off}) Quit"
     echo
 }
@@ -213,6 +239,8 @@ do
             ;;
         "6") showAllConns
             ;;
+        "7") remove_all_vpn
+            ;;
         "q") cd $cwd
             echo
             exit 0
@@ -222,4 +250,3 @@ do
             ;;
     esac
 done
-
