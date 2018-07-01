@@ -1,0 +1,200 @@
+#!/bin/bash
+#
+#title          :nordvpn_randomizer-nm
+#description    :randomizes NordVPN's UDP files based on
+#               :country (user input).
+#author         :Damian Rath
+#created        :2018-06-30
+#version        :0.2
+#usage          :bash nordvpn_randomizer-nm
+#notes          :script expects /etc/openvpn/auth.txt to
+#               :exist containing valid user & password.
+#bash_version   :4.3.48(1)-release
+
+
+# This will let the script know where it's located even
+# if run in cron or symlinked.
+scriptDir=$(dirname $(readlink -f $0))
+
+AUTHFILE="/etc/openvpn/auth.txt"
+STATUSFILE="rserver"
+rServer=""
+rServerID=""
+vpnExist=""
+wanIP=""
+VPNCOUNTRIES=("ar" "at" "au" "az" "ba" "be" "bg" "br" "ca" "ch" "cl" "cy" "cz" "de" "dk" "ee" "es" "fi" "fr" "ge" "hk" "hr" "hu" "id" "ie" "il" "in" "is" "it" "jp" "kr" "lu" "lv" "md" "mk" "mx" "my" "nl" "no" "nz" "pl" "pt" "ro" "rs" "ru" "se" "sg" "si" "sk" "tr" "tw" "uk" "us" "vn" "za")
+mySelect=""
+myItem=""
+item=""
+rVPN=""
+cwd=$(pwd)
+
+
+if [ "$(id -u)" != "0" ]; then
+    echo
+    echo "This script must be run as root" 1>&2
+    echo
+    exit 1
+fi
+
+#preReqs=$(dpkg -l | grep -E '^ii' | grep "network-manager-openvpn-gnome")
+#if [ ! $preReqs ]; then
+#    echo
+#    echo "You need to install the package 'network-manager-openvpn-gnome', exiting."
+#    echo
+#
+#    exit 1
+#fi
+
+cd $scriptDir
+
+source colors
+
+
+function doPause() {
+    read -sn 1 -p "Press any key to continue..."
+}
+
+# Keep asking for a valid country-code until the user gets it right
+function askCountryCode() {
+    myItem=""
+
+    while ! [ "${myItem}" ]; do
+        clear
+
+        # Ask user to provide a country-code for the random server choice
+        echo
+        echo "Please enter valid country-code you want to user"
+        read -p ">" mySelect
+
+        # Check to see that the user input actually is a country-code
+        # that NordVPN has a VPN server at.
+        for item in "${VPNCOUNTRIES[@]}"; do
+            if [[ $mySelect == "$item" ]]; then
+                myItem="true"
+            fi
+        done
+
+        if [[ ! $myItem ]]; then
+            echo
+            echo "NordVPN does not support that country. Please try again."
+            echo
+            echo "Valid country-codes are: ${VPNCOUNTRIES[*]}"
+            echo
+            doPause
+        fi
+    done
+}
+
+function pickUDP() {
+    cd /etc/openvpn/ovpn_udp
+
+    # Pick a random file we need
+    rServer=$(shuf -ezn 1 $mySelect*udp* | xargs -0 -n1 echo)
+}
+
+# Add the randomized VPN server to Network-Manager
+function addManager() {
+    local uName=$(sed -n 1p $AUTHFILE)
+    local pWord=$(sed -n 2p $AUTHFILE)
+
+    echo
+    nmcli connection import type openvpn file $rServer
+
+    rServerID=$(echo "$rServer" | sed -r 's/.{5}$//')
+
+    nmcli connection modify "$rServerID" +vpn.data username="$uName" +vpn.secrets password="$pWord"
+    nmcli connection modify "$rServerID" +vpn.data "password-flags=0"
+
+    cd $scriptDir
+
+    echo "$rServerID" > rserver
+
+    echo
+    doPause
+}
+
+function whatIP() {
+    # Ask Google's DNS what my current WAN IP is
+    wanIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
+
+    echo
+    echo "Current WAN IP: $wanIP"
+    echo
+
+    doPause
+}
+
+function director() {
+    if [ -f $STATUSFILE ]; then
+        echo
+        echo "Randomized VPN already added."
+        echo
+        doPause
+        return
+    fi
+
+    askCountryCode
+    pickUDP
+    addManager
+}
+
+function delManager() {
+    cd $scriptDir
+
+    if [ ! -f $STATUSFILE ]; then
+        echo "No randomized VPN has been added."
+        doPause
+        return
+    fi
+
+    rVPN=$(head -1 $STATUSFILE)
+
+    echo
+    nmcli connection down id "$rVPN" >/dev/null 2>&1
+    sleep 1
+    nmcli connection delete "$rVPN"
+
+    rm $STATUSFILE
+
+    echo
+    doPause
+}
+
+function MainMenu() {
+    clear
+
+    echo
+    echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
+    echo
+
+    echo -e "${Red}1${Color_Off}) Add randomized VPN"
+    echo -e "${Red}2${Color_Off}) Remove randomized VPN"
+    echo -e "${Red}3${Color_Off}) Current WAN IP"        
+    echo -e "${Red}q${Color_Off}) Quit"
+    echo
+}
+
+
+# Main
+
+while [ 1 ]
+do
+    MainMenu
+    read -p ">" CHOICE
+    case "$CHOICE" in
+        "1") director
+            ;;
+        "2") delManager
+            ;;
+        "3") whatIP
+            ;;
+        "q") cd $cwd
+            exit 0
+            ;;
+        *)  echo "\"$CHOICE\" is not valid "
+            sleep 2
+            ;;
+    esac
+done
+
