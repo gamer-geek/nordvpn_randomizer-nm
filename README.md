@@ -2,6 +2,8 @@
 
 **Note**, this was written while bored and drunk mainly on my cell phone so the code is crude, but working just fine. I will improve when time allows for it. Better usage/installation instructions included.
 
+This script is tested on Linux Mint and should work on all Ubuntu-derivaties and debian with minimal or no changes.
+
 This Bash script was created for simply randomize the available [NordVPN](https://nordvpn.com/) OpenVPN UDP files for a specific country choosen by the user. This script is also provided AS-IS and is a work in progress when I have some time over.
 
 ```
