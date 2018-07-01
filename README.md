@@ -1,6 +1,6 @@
 # nordvpn_randomizer-nm  (Network-Manager Edition)
 
-**Note**, this was written while bored and drunk mainly on my cell phone so the code is crude, but working just fine. I will improve when time allows for it. Better usage/installation instructions included.
+**Note**, this was written while bored and drunk mainly on my cell phone so the code is crude, but working just fine. I will improve it when time allows for it. Better usage/installation instructions included.
 
 This script is tested on Linux Mint (18.3) and should work on all Ubuntu-derivaties and debian with minimal or no changes.
 
@@ -42,4 +42,4 @@ That's it!
 
 ## Disclaimer
 
-I'm not affiliated with NordVPN in any way except being a normal customer that enjoys their services.
+I'm not affiliated with [NordVPN](https://nordvpn.com/) in any way except being a normal customer that enjoys their services.

@@ -152,6 +152,45 @@ function delManager() {
     doPause
 }
 
+function activateVPN() {
+    nmcli connection show --active | grep -i $rVPN >/dev/null 2>&1
+    if [ $? ]; then
+        echo
+        echo "Randomized VPN already active."
+        echo
+        doPause
+        return
+    fi
+
+    echo
+    nmcli connection up id "$rVPN"
+    echo
+    doPause
+}
+
+function deactivateVPN() {
+    nmcli connection show --active | grep -i $rVPN >/dev/null 2>&1
+    if [ ! $? ]; then
+        echo
+        echo "Randomized VPN already deactivated."
+        echo
+        doPause
+        return
+    fi
+
+    echo
+    nmcli connection down id "$rVPN"
+    echo
+    doPause
+}
+
+function showAllConns() {
+    nmcli connection show
+    echo
+    doPause
+}
+
+
 function MainMenu() {
     clear
 
@@ -161,7 +200,10 @@ function MainMenu() {
 
     echo -e "${Red}1${Color_Off}) Add randomized VPN"
     echo -e "${Red}2${Color_Off}) Remove randomized VPN"
-    echo -e "${Red}3${Color_Off}) Current WAN IP"        
+    echo -e "${Red}3${Color_Off}) Current WAN IP"
+    echo -e "${Red}4${Color_Off}) Activate randomized VPN"
+    echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
+    echo -e "${Red}6${Color_Off}) Show all connections in NM"
     echo -e "${Red}q${Color_Off}) Quit"
     echo
 }
@@ -179,6 +221,12 @@ do
         "2") delManager
             ;;
         "3") whatIP
+            ;;
+        "4") activateVPN
+            ;;
+        "5") deactivateVPN
+            ;;
+        "6") showAllConns
             ;;
         "q") cd $cwd
             exit 0
