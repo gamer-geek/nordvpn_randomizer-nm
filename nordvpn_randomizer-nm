@@ -202,8 +202,8 @@ function MainMenu() {
     echo -e "${Red}1${Color_Off}) Add randomized VPN"
     echo -e "${Red}2${Color_Off}) Remove randomized VPN"
     echo -e "${Red}3${Color_Off}) Current WAN IP"
-    echo -e "${Red}4${Color_Off}) Activate randomized VPN"
-    echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
+#    echo -e "${Red}4${Color_Off}) Activate randomized VPN"
+#    echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
     echo -e "${Red}6${Color_Off}) Show all connections in NM"
     echo -e "${Red}q${Color_Off}) Quit"
     echo
@@ -223,10 +223,10 @@ do
             ;;
         "3") whatIP
             ;;
-        "4") activateVPN
-            ;;
-        "5") deactivateVPN
-            ;;
+#        "4") activateVPN
+#            ;;
+#        "5") deactivateVPN
+#            ;;
         "6") showAllConns
             ;;
         "q") cd $cwd
