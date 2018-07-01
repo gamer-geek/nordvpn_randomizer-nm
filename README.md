@@ -32,7 +32,7 @@ $> git clone https://github.com/damianrath/nordvpn_randomizer-nm.git
 Now just put a symbolic link to *~/sources/nordvpn_randomizer-nm/nordvpn_randomizer-nm* somewhere in your path. Preferably in *~/bin/*.
 
 
-After you have run the script (as root) it will provide you with a menu of options. Here you can add and remove a randomized VPN. When you add a VPN it will ask you for a country-code. If you don't know which country-codes that are available you can just press ENTER and a list will be provided for you. Afterwards it will add it to your Network-Manager (GUI) where you can select to start/stop it like normal.
+After you have run the script (as root) it will provide you with a menu of options. Here you can add and remove a randomized VPN. When you add a VPN it will ask you for a country-code. If you don't know which country-codes that are available you can just press ENTER and a list will be provided for you. Afterwards it will add a randomized VPN to your Network-Manager (GUI), based on your country selection, where you can select to start/stop it like normal.
 
 When you want to get a new randomized VPN you just start this script again and use the second option on the menu. It will check if the VPN in question is started and stop it if necessary. After that it will remove it from the Network-Manager list. When that's done you can just choose the first option on the menu and the script will provide you with a new randomized VPN.
 
