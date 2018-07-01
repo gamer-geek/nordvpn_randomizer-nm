@@ -153,7 +153,7 @@ function delManager() {
 }
 
 function activateVPN() {
-    nmcli connection show --active | grep -i $rVPN >/dev/null 2>&1
+    nmcli connection show --active | grep -i "$rVPN" >/dev/null 2>&1
     if [ $? ]; then
         echo
         echo "Randomized VPN already active."
@@ -169,7 +169,7 @@ function activateVPN() {
 }
 
 function deactivateVPN() {
-    nmcli connection show --active | grep -i $rVPN >/dev/null 2>&1
+    nmcli connection show --active | grep -i "$rVPN" >/dev/null 2>&1
     if [ ! $? ]; then
         echo
         echo "Randomized VPN already deactivated."
@@ -185,6 +185,7 @@ function deactivateVPN() {
 }
 
 function showAllConns() {
+    echo
     nmcli connection show
     echo
     doPause
