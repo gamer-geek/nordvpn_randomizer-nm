@@ -1,4 +1,6 @@
-# nordvpn_randomizer
+# nordvpn_randomizer-nm
+
+// drunk, fix later.
 
 This Bash script was created for simply randomize the available [NordVPN](https://nordvpn.com/) OpenVPN UDP files for a specific country choosen by the user. This script is also provided AS-IS and is a work in progress when I have some time over.
 
