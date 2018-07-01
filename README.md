@@ -1,6 +1,6 @@
-# nordvpn_randomizer-nm
+# nordvpn_randomizer-nm  (Network-Manager Edition)
 
-// drunk, fix later.
+**Note**, this was written while bored and drunk mainly on my cell phone so the code is crude, but working just fine. I will improve when time allows for it. Better usage/installation instructions included.
 
 This Bash script was created for simply randomize the available [NordVPN](https://nordvpn.com/) OpenVPN UDP files for a specific country choosen by the user. This script is also provided AS-IS and is a work in progress when I have some time over.
 
@@ -26,18 +26,15 @@ Let's clone this puppy to your workstation/server.
 ```
 $> mkdir ~/sources && cd ~/sources
 
-$> git clone https://github.com/damianrath/nordvpn_randomizer.git
+$> git clone https://github.com/damianrath/nordvpn_randomizer-nm.git
 ```
 
-Now just put a symbolic link to *~/sources/nordvpn_randomizer/nordvpn_randomizer* somewhere in your path. Preferably in *~/bin/*.
+Now just put a symbolic link to *~/sources/nordvpn_randomizer-nm/nordvpn_randomizer-nm* somewhere in your path. Preferably in *~/bin/*.
 
 
-After you have run the script (as root) it will ask you for a country-code. If you don't know which country-codes that are available you can just press ENTER and a list will be provided for you.
+After you have run the script (as root) it will provide you with a menu of options. Here you can add and remove a randomized VPN. When you add a VPN it will ask you for a country-code. If you don't know which country-codes that are available you can just press ENTER and a list will be provided for you. Afterwards it will add it to your Network-Manager (GUI) where you can select to start/stop it like normal.
 
-When you have choosen a country-code the script will proceed to randomly pick a VPN server for you and connect to it. After a few seconds it will inform you what VPN IP address you now have and exit.
-
-You kill your OpenVPN process with:  `sudo killall openvpn`
-
+When you want to get a new randomized VPN you just start this script again and use the second option on the menu. It will check if the VPN in question is started and stop it if necessary. After that it will remove it from the Network-Manager list. When that's done you can just choose the first option on the menu and the script will provide you with a new randomized VPN.
 
 That's it!
 
@@ -45,6 +42,8 @@ That's it!
 
 ## TODO
 
+- Clean up the script. Drunk coding ftw.
+- Add some more features.
 - Add more error checking for the shellscript-challenged people.
 
 
