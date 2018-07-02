@@ -3,7 +3,9 @@
 **Note**, this was written while bored and drunk mainly on my cell phone so the code is crude, but working just fine. I will improve it when time allows for it. Better usage/installation instructions included.
 
 
-![Screenshot](https://imgur.com/a/VetZp6k)
+<p align="center">
+  <img src="screenshot/screenshot.png" width="350" title="Screenshot">
+</p>
 
 
 This script is tested on Linux Mint (18.3) and should work on all Ubuntu-derivaties and debian with minimal or no changes.
