@@ -54,6 +54,3 @@ composer.lock
 *.a
 *.lib
 
-git/
-screenshot/
-
