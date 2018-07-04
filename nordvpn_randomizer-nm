@@ -49,6 +49,8 @@ function doPause() {
     if [ ! $cli ]; then
         read -sn 1 -p "Press any key to continue..."
     fi
+
+    return
 }
 
 # If command line parameters have been found, silent outputs
@@ -58,6 +60,8 @@ silent() {
     else
         "$@" >/dev/null 2>&1
     fi
+
+    return
 }
 
 # Keep asking for a valid country-code until the user gets it right
@@ -90,6 +94,8 @@ function askCountryCode() {
             doPause
         fi
     done
+
+    return
 }
 
 function pickUDP() {
@@ -97,6 +103,8 @@ function pickUDP() {
 
     # Pick a random file we need
     rServer=$(shuf -ezn 1 $mySelect*udp* | xargs -0 -n1 echo)
+
+    return
 }
 
 # Add the randomized VPN server to Network-Manager
@@ -118,6 +126,8 @@ function addManager() {
  
     echo
     doPause
+
+    return
 }
 
 function whatIP() {
@@ -129,6 +139,8 @@ function whatIP() {
 
     echo
     doPause
+
+    return
 }
 
 function director() {
@@ -186,6 +198,8 @@ function activateVPN() {
 
     echo
     doPause
+
+    return
 }
 
 function deactivateVPN() {
@@ -213,12 +227,12 @@ function removeAllVPN() {
                        echo
                        doPause
                        return
-            ;;
-        * ) echo "Aborting"
-            echo
-            doPause
-            return
-            ;;
+        ;;
+        *) echo "Aborting"
+           echo
+           doPause
+           return
+        ;;
     esac
 }
 
@@ -228,25 +242,96 @@ function showAllConns() {
 
     echo
     doPause
+
+    return
+}
+
+function setSystemDNS() {
+    echo
+
+    return
+}
+
+function networkDisable() {
+    echo
+    read -p "Are you sure you want to DISABLE your network system-wide? (yes/no) [no] " yn
+    case $yn in
+        [yY][eE][sS]) echo
+                      nmcli n off
+                      echo
+                      doPause
+                      return
+        ;;
+        *) echo "Aborting"
+           echo
+           doPause
+           return
+        ;;
+    esac
+
+    return
+}
+
+function networkEnable() {
+    echo
+    read -p "Are you sure you want to ENABLE your network system-wide? (yes/no) [no] " yn
+    case $yn in
+        [yY][eE][sS]) echo
+                      nmcli n on
+                      echo
+                      doPause
+                      return
+        ;;
+        *) echo "Aborting"
+           echo
+           doPause
+           return
+        ;;
+    esac
+
+    return
 }
 
 
-function MainMenu() {
-    clear
+function miscMenu() {
+    while [1]
+    do
+        clear
 
-    echo
-    echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
-    echo
+        echo
+        echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
+        echo        
+        echo
+        echo "-- Miscellaneous"
+        echo
+        echo -e "${Red}1${Color_Off}) Set system DNS"
+        echo -e "${Red}2${Color_Off}) Remove ALL NordVPN connections"
+        echo -e "${Red}3${Color_Off}) Enable network system-wide"
+        echo -e "${Red}4${Color_Off}) Disable network system-wide"
+        echo
+        echo
+        echo -e "${Red}Enter${Color_Off}) Go back"
+        echo
+        echo
 
-    echo -e "${Red}1${Color_Off}) Add randomized VPN"
-    echo -e "${Red}2${Color_Off}) Remove randomized VPN"
-    echo -e "${Red}3${Color_Off}) Current WAN IP"
-    echo -e "${Red}4${Color_Off}) Activate randomized VPN"
-    echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
-    echo -e "${Red}6${Color_Off}) Show all connections in NM"
-    echo -e "${Red}7${Color_Off}) Remove ALL NordVPN connections"    
-    echo -e "${Red}q${Color_Off}) Quit"
-    echo
+        read  -p ">" CHOICE
+        case $CHOICE in
+            "1") setSystemDNS
+            ;;
+            "2") removeAllVPN
+            ;;
+            "3") networkEnable
+            ;;
+            "4") networkDisable
+            ;;            
+            "") return
+            ;;
+            *)  echo "$CHOICE is not valid"
+                echo
+                doPause
+            ;;
+        esac
+    done
 }
 
 
@@ -278,7 +363,7 @@ do
             echo
             echo "No parameters             = menu mode"
             echo
-            echo "-a|--add <country code>   = add a randomized VPN"
+            echo "-a|--add <country-code>   = add a randomized VPN"
             echo
             echo "-r|--remove               = remove the randomized VPN"
             echo
@@ -309,29 +394,47 @@ fi
 
 while [ 1 ]
 do
-    MainMenu
+    clear
+
+    echo
+    echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
+    echo
+    echo
+    echo "-- Main"
+    echo
+    echo -e "${Red}1${Color_Off}) Add randomized VPN"
+    echo -e "${Red}2${Color_Off}) Remove randomized VPN"
+    echo -e "${Red}3${Color_Off}) Current WAN IP"
+    echo -e "${Red}4${Color_Off}) Activate randomized VPN"
+    echo -e "${Red}5${Color_Off}) Deactivate randomized VPN"
+    echo -e "${Red}6${Color_Off}) Show all connections in NM"
+    echo -e "${Red}7${Color_Off}) Miscellaneous (menu)"
+    echo -e "${Red}q${Color_Off}) Quit"
+    echo
+    echo
+
     read -p ">" CHOICE
     case "$CHOICE" in
         "1") director
-            ;;
+        ;;
         "2") delManager
-            ;;
+        ;;
         "3") whatIP
-            ;;
+        ;;
         "4") activateVPN
-            ;;
+        ;;
         "5") deactivateVPN
-            ;;
+        ;;
         "6") showAllConns
-            ;;
-        "7") removeAllVPN
-            ;;
+        ;;
+        "7") miscmenu
+        ;;
         "q") cd $cwd
+             exit 0
+        ;;
+        *)  echo "\"$CHOICE\" is not valid"
             echo
-            exit 0
-            ;;
-        *)  echo "\"$CHOICE\" is not valid "
-            sleep 2
-            ;;
+            doPause
+        ;;
     esac
 done
