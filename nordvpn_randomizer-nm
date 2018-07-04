@@ -54,7 +54,7 @@ function doPause() {
 silent() {
     cli="true"
 
-    if [[ $cli ]]; then
+    if [[ "$cli" ]]; then
 #        "$@"
         echo "I suck"
         echo "$cli"
