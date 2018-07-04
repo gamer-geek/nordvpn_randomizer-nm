@@ -5,7 +5,7 @@
 #               :country (user input).
 #author         :Damian Rath
 #created        :2018-06-30
-#version        :0.2.1
+#version        :0.3.0
 #usage          :bash nordvpn_randomizer-nm
 #notes          :script expects /etc/openvpn/auth.txt to
 #               :exist containing valid user & password.
