@@ -301,14 +301,12 @@ function miscMenu() {
         echo
         echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
         echo        
-        echo
         echo "-- Miscellaneous"
         echo
         echo -e "${Red}1${Color_Off}) Set system DNS"
         echo -e "${Red}2${Color_Off}) Remove ALL NordVPN connections"
         echo -e "${Red}3${Color_Off}) Enable network system-wide"
         echo -e "${Red}4${Color_Off}) Disable network system-wide"
-        echo
         echo
         echo -e "${Red}Enter${Color_Off}) Go back"
         echo
@@ -326,7 +324,7 @@ function miscMenu() {
             ;;            
             "") return
             ;;
-            *)  echo "\"$CHOICE\" is not valid"
+            *)  echo "$CHOICE is not valid"
                 echo
                 doPause
             ;;
@@ -399,7 +397,6 @@ do
     echo
     echo -e "${Green}### NordVPN Randomizer (NM) ###${Color_Off}"
     echo
-    echo
     echo "-- Main"
     echo
     echo -e "${Red}1${Color_Off}) Add randomized VPN"
@@ -432,7 +429,7 @@ do
         "q") cd $cwd
              exit 0
         ;;
-        *)  echo "\"$CHOICE\" is not valid"
+        *)  echo "$CHOICE" is not valid"
             echo
             doPause
         ;;
