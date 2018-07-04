@@ -51,6 +51,14 @@ function doPause() {
     fi
 }
 
+silent() {
+    if [ $cli; then
+        "$@"
+    else
+        "$@" &>/dev/null
+    fi
+}
+
 # Keep asking for a valid country-code until the user gets it right
 function askCountryCode() {
     myItem=""
@@ -100,7 +108,7 @@ function addManager() {
     fi
 
     echo
-    nmcli connection import type openvpn file $rServer $quiet
+    silent nmcli connection import type openvpn file $rServer
 
     rServerID=$(echo "$rServer" | sed -r 's/.{5}$//')
 
@@ -164,7 +172,7 @@ function delManager() {
     echo
     nmcli connection down id "$rVPN" >/dev/null 2>&1
     sleep 1
-    nmcli connection delete "$rVPN" $quiet
+    silent nmcli connection delete "$rVPN"
 
     rm $STATUSFILE
 
