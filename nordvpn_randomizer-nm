@@ -27,6 +27,7 @@ mySelect=""
 myItem=""
 item=""
 rVPN=""
+quiet=""
 cli=""
 cwd=$(pwd)
 
@@ -94,8 +95,12 @@ function addManager() {
     local uName=$(sed -n 1p $AUTHFILE)
     local pWord=$(sed -n 2p $AUTHFILE)
 
+    if [ $cli ]; then
+        quiet=">/dev/null 2>&1"
+    fi
+
     echo
-    nmcli connection import type openvpn file $rServer
+    nmcli connection import type openvpn file $rServer $quiet
 
     rServerID=$(echo "$rServer" | sed -r 's/.{5}$//')
 
@@ -152,10 +157,14 @@ function delManager() {
 
     rVPN=$(head -1 $STATUSFILE)
 
+    if [ $cli ]; then
+        quiet=">/dev/null 2>&1"
+    fi
+
     echo
     nmcli connection down id "$rVPN" >/dev/null 2>&1
     sleep 1
-    nmcli connection delete "$rVPN"
+    nmcli connection delete "$rVPN" $quiet
 
     rm $STATUSFILE
 
