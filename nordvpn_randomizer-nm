@@ -56,7 +56,7 @@ do
         ;;
         -r|--remove)
             delManager
-        ;
+        ;;
         -e|--enable)
             activateVPN
         ;;
