@@ -55,7 +55,8 @@ silent() {
     if [[ $cli ]]; then
         "$@"
     else
-        "$@" &>/dev/null
+#        "$@" &>/dev/null
+    "$@" >/dev/null 2>&1
     fi
 }
 
