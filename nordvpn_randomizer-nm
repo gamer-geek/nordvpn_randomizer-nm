@@ -54,11 +54,13 @@ function doPause() {
 silent() {
     cli="true"
 
-    if [[ $cli ]]; then
+    if [ $cli = "true" ]; then
         "$@"
+        echo "I suck"
     else
 #        "$@" &>/dev/null
         "$@" >/dev/null 2>&1
+        echo "I rock"
     fi
 }
 
