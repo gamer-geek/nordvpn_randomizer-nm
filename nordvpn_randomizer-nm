@@ -43,40 +43,6 @@ cd $scriptDir
 source colors
 
 
-# Parse all command line parameters, if any.
-while [[ $# -gt 0 ]]
-do
-    key="$1"
-    case "$key" in
-        -a|--add)
-            shift
-            mySelect="$1"
-            cli="true"
-            director
-        ;;
-        -r|--remove)
-            delManager
-        ;;
-        -e|--enable)
-            activateVPN
-        ;;
-        -d=*|--deactivate)
-            deactivateVPN
-        ;;
-        -h=*|--help)
-            echo
-            echo "nordvpn_randomizer-nm -a <country-code> -r -e -d -h"
-            echo
-        ;;        
-        *)
-            echo "Unknown option '$key'"
-            exit 1
-        ;;
-    esac
-    # Shift after checking all the cases to get the next option
-    shift
-done
-
 # If there are command line parameters exit here and don't go
 # to the main menu.
 if [ $cli ]; then
@@ -268,6 +234,41 @@ function MainMenu() {
     echo -e "${Red}q${Color_Off}) Quit"
     echo
 }
+
+
+# Parse all command line parameters, if any.
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case "$key" in
+        -a|--add)
+            shift
+            mySelect="$1"
+            cli="true"
+            director
+        ;;
+        -r|--remove)
+            delManager
+        ;;
+        -e|--enable)
+            activateVPN
+        ;;
+        -d=*|--deactivate)
+            deactivateVPN
+        ;;
+        -h=*|--help)
+            echo
+            echo "nordvpn_randomizer-nm -a <country-code> -r -e -d -h"
+            echo
+        ;;        
+        *)
+            echo "Unknown option '$key'"
+            exit 1
+        ;;
+    esac
+    # Shift after checking all the cases to get the next option
+    shift
+done
 
 
 # Main
