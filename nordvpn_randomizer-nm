@@ -27,6 +27,7 @@ mySelect=""
 myItem=""
 item=""
 rVPN=""
+cli=""
 cwd=$(pwd)
 
 
@@ -42,36 +43,51 @@ cd $scriptDir
 source colors
 
 
-while [[ $# -gt 0 ]]; do
+# Parse all command line parameters, if any.
+while [[ $# -gt 0 ]]
+do
     key="$1"
     case "$key" in
         -a|--add)
-        shift
-        rserver="$1"
-        echo "$rserver"
+            shift
+            mySelect="$1"
+            cli="true"
+            director
         ;;
         -r|--remove)
-        delManager
-        ;;
+            delManager
+        ;
         -e|--enable)
-        activateVPN
+            activateVPN
         ;;
         -d=*|--deactivate)
-        deactivateVPN
+            deactivateVPN
         ;;
+        -h=*|--help)
+            echo
+            echo "nordvpn_randomizer-nm -a <country-code> -r -e -d -h"
+            echo
+        ;;        
         *)
-        echo "Unknown option '$key'"
+            echo "Unknown option '$key'"
+            exit 1
         ;;
     esac
     # Shift after checking all the cases to get the next option
     shift
 done
 
-exit
+# If there are command line parameters exit here and don't go
+# to the main menu.
+if [ $cli ]; then
+    exit 0
+fi
 
-
+# Pause script and wait for user input
 function doPause() {
-    read -sn 1 -p "Press any key to continue..."
+    if [ ! $cli ]; then
+        read -sn 1 -p "Press any key to continue..."
+    fi
 }
 
 # Keep asking for a valid country-code until the user gets it right
@@ -155,7 +171,10 @@ function director() {
         return
     fi
 
-    askCountryCode
+    if [ ! $cli ]; then
+        askCountryCode
+    fi
+
     pickUDP
     addManager
 }
