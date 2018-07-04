@@ -255,11 +255,12 @@ do
             cli="true"
             activateVPN
         ;;
-        -d=*|--deactivate)
+        -d|--deactivate)
             cli="true"
             deactivateVPN
         ;;
-        -h=*|--help)
+        -h|--help)
+            cli="true"
             echo
             echo "nordvpn_randomizer-nm -a <country-code> -r -e -d -h"
             echo
