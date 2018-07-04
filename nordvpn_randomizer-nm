@@ -429,7 +429,7 @@ do
         "q") cd $cwd
              exit 0
         ;;
-        *)  echo "$CHOICE" is not valid"
+        *)  echo "$CHOICE is not valid"
             echo
             doPause
         ;;
