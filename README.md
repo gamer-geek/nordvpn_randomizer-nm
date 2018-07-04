@@ -33,6 +33,10 @@ After you have run the script (as root) it will provide you with a menu of optio
 
 When you want to get a new randomized VPN you just start this script again and use the second option on the menu. It will check if the VPN in question is started and stop it if necessary. After that it will remove it from the Network-Manager list. When that's done you can just choose the first option on the menu and the script will provide you with a new randomized VPN.
 
+
+The script also has a command line parameters for the main functionality. nordvpn_randomizer-nm --help
+
+
 That's it!
 
 
