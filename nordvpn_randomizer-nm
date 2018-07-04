@@ -58,6 +58,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -d=*|--deactivate)
         deactivateVPN
+        ;;
         *)
         echo "Unknown option '$key'"
         ;;
