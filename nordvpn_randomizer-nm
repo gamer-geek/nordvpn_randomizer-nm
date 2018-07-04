@@ -109,7 +109,7 @@ function addManager() {
     fi
 
     echo
-    silent nmcli connection import type openvpn file $rServer
+    nmcli connection import type openvpn file $rServer >/dev/null 2>&1
 
     rServerID=$(echo "$rServer" | sed -r 's/.{5}$//')
 
