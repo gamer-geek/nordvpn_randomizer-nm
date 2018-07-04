@@ -52,11 +52,13 @@ function doPause() {
 }
 
 silent() {
+    cli="true"
+
     if [[ $cli ]]; then
         "$@"
     else
 #        "$@" &>/dev/null
-    "$@" >/dev/null 2>&1
+        "$@" >/dev/null 2>&1
     fi
 }
 
@@ -104,12 +106,8 @@ function addManager() {
     local uName=$(sed -n 1p $AUTHFILE)
     local pWord=$(sed -n 2p $AUTHFILE)
 
-    if [ $cli ]; then
-        quiet=">/dev/null 2>&1"
-    fi
-
     echo
-    nmcli connection import type openvpn file $rServer >/dev/null 2>&1
+    silent nmcli connection import type openvpn file $rServer
 
     rServerID=$(echo "$rServer" | sed -r 's/.{5}$//')
 
