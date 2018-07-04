@@ -42,6 +42,38 @@ cd $scriptDir
 source colors
 
 
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+        # This is a flag type option. Will catch either -f or --foo
+        -a|--add)
+        shift
+        rserver="$1"
+        echo "$rserver"
+        ;;
+        # Also a flag type option. Will catch either -b or --bar
+        -r|--remove)
+        delManager
+        ;;
+        # This is an arg value type option. Will catch -o value or --output-file value
+        -e|--enable)
+        activateVPN
+        ;;
+        # This is an arg=value type option. Will catch -o=value or --output-file=value
+        -d=*|--deactivate)
+        deactivateVPN
+        *)
+        # Do whatever you want with extra options
+        echo "Unknown option '$key'"
+        ;;
+    esac
+    # Shift after checking all the cases to get the next option
+    shift
+done
+
+exit
+
+
 function doPause() {
     read -sn 1 -p "Press any key to continue..."
 }
