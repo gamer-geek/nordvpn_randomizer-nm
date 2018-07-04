@@ -43,12 +43,6 @@ cd $scriptDir
 source colors
 
 
-# If there are command line parameters exit here and don't go
-# to the main menu.
-if [ $cli ]; then
-    exit 0
-fi
-
 # Pause script and wait for user input
 function doPause() {
     if [ ! $cli ]; then
@@ -274,6 +268,12 @@ do
     # Shift after checking all the cases to get the next option
     shift
 done
+
+# If there are command line parameters exit here and don't go
+# to the main menu.
+if [ $cli ]; then
+    exit 0
+fi
 
 
 # Main
