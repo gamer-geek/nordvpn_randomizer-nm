@@ -52,7 +52,7 @@ function doPause() {
 }
 
 silent() {
-    if [ $cli; then
+    if [ $cli ]; then
         "$@"
     else
         "$@" &>/dev/null
