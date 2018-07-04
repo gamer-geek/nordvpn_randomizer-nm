@@ -143,6 +143,8 @@ function director() {
 
     pickUDP
     addManager
+
+    return
 }
 
 function delManager() {
@@ -248,12 +250,15 @@ do
             director
         ;;
         -r|--remove)
+            cli="true"
             delManager
         ;;
         -e|--enable)
+            cli="true"
             activateVPN
         ;;
         -d=*|--deactivate)
+            cli="true"
             deactivateVPN
         ;;
         -h=*|--help)
