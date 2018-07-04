@@ -51,12 +51,12 @@ function doPause() {
     fi
 }
 
+# If command line parameters have been found, silent outputs
 silent() {
     if [[ ! $cli ]]; then
         "$@"
     else
-        "$@" &>/dev/null
-#        "$@" >/dev/null 2>&1
+        "$@" >/dev/null 2>&1
     fi
 }
 
@@ -182,7 +182,7 @@ function delManager() {
 function activateVPN() {
     rVPN=$(head -1 $STATUSFILE)
     echo
-    nmcli connection up id "$rVPN"
+    silent nmcli connection up id "$rVPN"
 
     echo
     doPause
@@ -191,7 +191,7 @@ function activateVPN() {
 function deactivateVPN() {
     rVPN=$(head -1 $STATUSFILE)
     echo
-    nmcli connection down id "$rVPN"
+    silent nmcli connection down id "$rVPN"
 
     echo
     doPause
@@ -276,7 +276,17 @@ do
         -h|--help)
             cli="true"
             echo
-            echo "nordvpn_randomizer-nm -a <country-code> -r -e -d -h"
+            echo "No parameters             = menu mode"
+            echo
+            echo "-a|--add <country code>   = add a randomized VPN"
+            echo
+            echo "-r|--remove               = remove the randomized VPN"
+            echo
+            echo "-e|--enable               = enable the randomized VPN"
+            echo
+            echo "-d|--deactivate           = deactivate the randomized VPN"
+            echo
+            echo "-h|--help                 = this help"
             echo
         ;;        
         *)
